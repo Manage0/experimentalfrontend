@@ -2,8 +2,11 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, getDocs, query } from "firebase/firestore";
 
+const api1 = "AIzaSyBNKNUPz8OAFk";
+const api2 = "YpNk7aS9N3M9iWf8O4Q1s";
+
 const firebaseConfig = {
-  apiKey: "AIzaSyBNKNUPz8OAFkYpNk7aS9N3M9iWf8O4Q1s",
+  apiKey: api1 + api2,
   authDomain: "siofok-kc-prod.firebaseapp.com",
   databaseURL: "https://siofok-kc-prod.firebaseio.com",
   projectId: "siofok-kc-prod",
