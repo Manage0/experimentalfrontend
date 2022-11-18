@@ -28,16 +28,24 @@ async function ifAuthed(req, res) {
     status: 200,
     data: [
       {
-        team: "Team X",
+        team: "Team1",
         points: 5,
       },
       {
-        team: "Team Y",
-        points: 1,
+        team: "Team2",
+        points: 4,
       },
       {
-        team: "Team X",
-        points: 4,
+        team: "Team3",
+        points: 3,
+      },
+      {
+        team: "Team4",
+        points: 2,
+      },
+      {
+        team: "Team5",
+        points: 1,
       },
     ],
   });

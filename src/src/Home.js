@@ -7,7 +7,17 @@ import {
 } from "./firebase-config";
 import axios from "axios";
 import { collection, doc, getDocs, query, updateDoc } from "firebase/firestore";
-import { Button, ButtonGroup, Card, CardContent } from "@mui/material";
+import {
+  Button,
+  ButtonGroup,
+  Card,
+  CardContent,
+  FormControl,
+  FormHelperText,
+  InputLabel,
+  MenuItem,
+  Select,
+} from "@mui/material";
 
 const Home = () => {
   const [mode, setMode] = useState("news");
@@ -59,8 +69,6 @@ const Home = () => {
   const [selectedMatch, setSelectedMatch] = useState(null);
   const [voting, setVoting] = useState({});
   const [items2, setItems2] = useState([]);
-  const [open3, setOpen3] = useState(false);
-  const [open4, setOpen4] = useState(false);
   const [value4, setValue4] = useState(null);
   const [items4, setItems4] = useState([]);
   const [matchesWVoting, setMatchesWVoting] = useState();
@@ -163,24 +171,31 @@ const Home = () => {
   return (
     <div
       style={{
-        padding: "5px",
-        display: "flex",
-        alignItems: "center",
-        flexDirection: "column",
+        background:
+          "-moz-linear-gradient(98deg, rgba(0,108,255,1) 0%, rgba(236,244,248,1) 100%)",
+        height: "100vh",
       }}
     >
-      <img
-        src="https://w7.pngwing.com/pngs/261/803/png-transparent-african-mens-handball-championship-ihf-world-mens-handball-championship-international-handball-federation-sport-handball-pic-hand-team-association.png"
-        alt="logo"
+      <div
         style={{
-          position: "absolute",
-          left: 10,
-          top: 10,
-          width: "40px",
-          height: "40px",
-          borderRadius: "40%",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
         }}
-      />
+      >
+        <img
+          src="https://w7.pngwing.com/pngs/261/803/png-transparent-african-mens-handball-championship-ihf-world-mens-handball-championship-international-handball-federation-sport-handball-pic-hand-team-association.png"
+          alt="logo"
+          style={{
+            position: "absolute",
+            left: 10,
+            top: 10,
+            width: "40px",
+            height: "40px",
+            borderRadius: "40%",
+          }}
+        />
+      </div>
       <div
         style={{
           padding: "5px",
@@ -189,6 +204,8 @@ const Home = () => {
           background:
             "-moz-linear-gradient(98deg, rgba(0,108,255,1) 0%, rgba(236,244,248,1) 100%)",
           width: "100%",
+          height: "45px",
+          borderBottom: "2px solid black",
         }}
       >
         <ButtonGroup sx={{ background: "white" }}>
@@ -228,11 +245,15 @@ const Home = () => {
         <div style={{ paddingTop: "5px" }}>
           {news.map((item) => {
             return (
-              <Card variant="outlined" key={item.title}>
+              <Card
+                sx={{ maxWidth: "50%", marginLeft: "25%" }}
+                variant="outlined"
+                key={item.title}
+              >
                 <CardContent>
                   <h2>{item.title}</h2>
                 </CardContent>
-                <CardContent>
+                <CardContent sx={{ textAlign: "justify" }}>
                   <h4>{item.content}</h4>
                 </CardContent>
               </Card>
@@ -241,34 +262,54 @@ const Home = () => {
         </div>
       )}
       {mode === "players" && (
-        <div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            width: "90%",
+            marginLeft: "5%",
+          }}
+        >
           {players.map((item) => {
             return (
-              <div style={listStyle} key={item.name}>
-                <p style={{ color: "blue" }}>{item.name}</p>
-              </div>
+              <Card sx={{ margin: "5px" }} variant="outlined" key={item.name}>
+                <CardContent>
+                  <h2>{item.name}</h2>
+                </CardContent>
+                <CardContent>
+                  <img
+                    width={150}
+                    style={{ borderRadius: "50%" }}
+                    height={150}
+                    src="https://cataas.com/c"
+                  ></img>
+                </CardContent>
+              </Card>
             );
           })}
-          <input
-            type="text"
-            placeholder="new player name"
-            onChange={(e) => setNewPlayer(e.target.value)}
-          ></input>
-          {/*<button style={btnStyle} onClick={() => addPlayer()}>
-            Add player
-        </button>*/}
         </div>
       )}
       {mode === "matches" && (
-        <div>
+        <div
+          style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))",
+            width: "90%",
+            marginLeft: "5%",
+          }}
+        >
           {matches.map((item) => {
             return (
-              <div style={listStyle} key={item.home + Math.random()}>
-                <p style={{ color: "blue" }}>
-                  {item.home} vs. {item.guest}
-                  <br />
-                  {item.homePoints} - {item.guestPoints}
-                </p>
+              <div key={item.home + Math.random()}>
+                <Card sx={{ margin: "5px" }} variant="outlined" key={item.name}>
+                  <CardContent>
+                    <h2>
+                      {item.home} vs. {item.guest}
+                      <br />
+                      {item.homePoints} - {item.guestPoints}
+                    </h2>
+                  </CardContent>
+                </Card>
               </div>
             );
           })}
@@ -278,51 +319,104 @@ const Home = () => {
         <div>
           {leaderboard.map((item) => {
             return (
-              <div style={listStyle} key={item.home + Math.random()}>
-                <p style={{ color: "blue" }}>
-                  {item.team} - {item.points}
-                </p>
+              <div
+                key={item.home + Math.random()}
+                style={{ width: "20%", marginLeft: "40%" }}
+              >
+                <Card sx={{ margin: "5px" }} variant="outlined" key={item.name}>
+                  <CardContent>
+                    <h2>
+                      {item.team} - {item.points} points
+                    </h2>
+                  </CardContent>
+                </Card>
               </div>
             );
           })}
         </div>
       )}
       {mode === "voting" && (
-        <div>
+        <div
+          style={{
+            padding: "10px",
+            background: "WHITE",
+            width: "70%",
+            marginLeft: "15%",
+            display: "flex",
+            justifyContent: "space-around",
+            alignItems: "center",
+            borderRadius: "5px",
+          }}
+        >
+          <h2>Vote to your favorite player!</h2>
           {saved && <div>Saved</div>}
-          <select
-            onClick={(e) => {
-              setSelectedMatch(e.target.value);
+          <FormControl
+            sx={{
+              background: "white",
+              width: "200px",
             }}
           >
-            {matchesWVoting.map((item) => {
-              return (
-                <option key={item.label} value={item.value}>
-                  {item.label}
-                </option>
-              );
-            })}
-          </select>
-          <select
-            onClick={(e) => {
-              setValue4(e.target.value);
+            <InputLabel id="demo-simple-select-label">
+              Select a Match
+            </InputLabel>
+            <Select
+              onChange={(e) => {
+                setSelectedMatch(e.target.value);
+              }}
+              value={selectedMatch}
+              label="Select a Match"
+              labelId="demo-simple-select-label"
+            >
+              {matchesWVoting.map((item) => {
+                return (
+                  <MenuItem key={item.label} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl
+            sx={{
+              background: "white",
+              width: "200px",
             }}
           >
-            {items4.map((item) => {
-              return (
-                <option key={item.label} value={item.label}>
-                  {item.label}
-                </option>
-              );
-            })}
-          </select>
-          <button
-            onClick={() => {
-              Vote();
+            <InputLabel id="demo-simple-select-label2">
+              Select a Player
+            </InputLabel>
+            <Select
+              onChange={(e) => {
+                setValue4(e.target.value);
+              }}
+              value={value4}
+              labelId="demo-simple-select-label2"
+            >
+              {items4.map((item) => {
+                return (
+                  <MenuItem key={item.label} value={item.value}>
+                    {item.label}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+          <FormControl
+            sx={{
+              background: "white",
+              width: "200px",
+              height: "100%",
             }}
           >
-            Vote
-          </button>
+            <Button
+              sx={{ height: "100%" }}
+              onClick={() => {
+                Vote();
+              }}
+            >
+              Vote
+            </Button>
+          </FormControl>
         </div>
       )}
     </div>
